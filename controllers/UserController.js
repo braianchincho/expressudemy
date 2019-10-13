@@ -33,11 +33,22 @@ class UserController {
     }
     
     async updateUser(req,res) {
-
+        const result = await userModel.findByIdAndUpdate(
+            req.params.id , req.body , {new:true});
+        if(result) {
+            return res.send(result);
+        } else {
+            return res.status(404).send('No se encontro el usuario');
+        }
     }
 
     async deleteUser(req,res) {
-  
+        const result = await userModel.findByIdAndDelete(req.params.id)
+        if(result) {
+            return res.send(result);
+        } else {
+            return res.status(404).send('No se encontro el usuario');
+        }
     }
 }
 
