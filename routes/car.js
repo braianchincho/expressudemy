@@ -21,7 +21,6 @@ router.get('/:id',async(req, res)=>{
    }
 });
 router.post('/', [
-    check('company').isLength({min: 3}),
     check('model').isString(),
     check('price').isNumeric(),
     check('year').isNumeric()

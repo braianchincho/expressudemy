@@ -1,8 +1,11 @@
 const carModel = require('../models/carModel');
+const companyModel = require('../models/companyModel');
 class CarController {
 
     async getAllCars() {
-        const cars = await carModel.find();
+        const cars = await carModel
+        .find()
+        .populate('company','name country');
         if(cars) {
             return cars;
         } else {
@@ -11,7 +14,8 @@ class CarController {
     }
 
     async getCarById(id) {
-        const car = await carModel.findById(id);
+        const car = await carModel.findById(id)
+        .populate('name country');
         if(car) {
             return car;
         } else {

@@ -3,11 +3,13 @@ const express = require('express');
 const app = express();
 const car = require('./routes/car');
 const users = require('./routes/user');
+const company = require('./routes/company');
 app.use(express.json());
 
 
 app.use('/api/cars/', car);
 app.use('/api/users/', users);
+app.use('/api/companies/', company);
 
 
 const port = process.env.PORT || 3003
