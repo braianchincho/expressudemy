@@ -2,8 +2,11 @@ const carController = require('../controllers/CarController');
 const express = require('express');
 const router = express.Router()
 const { check, validationResult } = require('express-validator');
+const { checkAuthorize, autorizeByRoles } = require('../JWT/jwt');
+const roles = require('../models/rolesModel');
 
-router.get('/',async (req, res)=>{
+router.get('/', [ checkAuthorize, autorizeByRoles([roles.Admin,roles.Customer]) ] ,
+    async (req, res)=>{
     try {
        const cars = await carController.getAllCars();
        return res.send(cars);
@@ -12,7 +15,8 @@ router.get('/',async (req, res)=>{
     }
 });
 
-router.get('/:id',async(req, res)=>{
+router.get('/:id', [ checkAuthorize, autorizeByRoles([roles.Admin,roles.Customer]) ] ,
+   async(req, res)=>{
    try {
        const car = await carController.getCarById(req.params.id);
        return res.send(car);
@@ -23,7 +27,9 @@ router.get('/:id',async(req, res)=>{
 router.post('/', [
     check('model').isString(),
     check('price').isNumeric(),
-    check('year').isNumeric()
+    check('year').isNumeric(),
+    checkAuthorize , 
+    autorizeByRoles([roles.Admin]) 
 ],async (req, res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -42,7 +48,9 @@ router.put('/:id', [
     check('company').isLength({min: 3}),
     check('model').isString(),
     check('price').isNumeric(),
-    check('year').isNumeric()
+    check('year').isNumeric(),
+    checkAuthorize, 
+    autorizeByRoles([roles.Admin]) 
 ],async (req, res)=>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -58,7 +66,7 @@ router.put('/:id', [
 });
 
 
-router.delete('/:id', async(req, res)=>{
+router.delete('/:id', [ checkAuthorize, autorizeByRoles([roles.Admin]) ] , async(req, res)=>{
     try {
         const coche = await carController.deleteCar(req.params.id);
         return res.status(200).send(coche)
