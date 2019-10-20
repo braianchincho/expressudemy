@@ -15,6 +15,12 @@ const userSchema = new mongoose.Schema({
     date: {type: Date, default: Date.now()}
 });
 
-const userModel = mongoose.model('user',userSchema);
+let userModel;
+try {
+    userModel = mongoose.model('user',userSchema);
+} catch(err) {
+    userModel = mongoose.models.user;
+}
+
 
 module.exports = userModel;

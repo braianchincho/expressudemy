@@ -4,12 +4,14 @@ const app = express();
 const car = require('./routes/car');
 const users = require('./routes/user');
 const company = require('./routes/company');
+const sales = require('./routes/sales')
 app.use(express.json());
 
 
 app.use('/api/cars/', car);
 app.use('/api/users/', users);
 app.use('/api/companies/', company);
+app.use('/api/sales/', sales);
 
 
 const port = process.env.PORT || 3003
