@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const saleController = require('../controllers/SaleController');
 const { check, validationResult } = require('express-validator');
+const { checkAuthorize } = require('../JWT/jwt');
 
 router.get('/',async (req,res) => { 
     try {
@@ -20,7 +21,7 @@ router.get('/:id',async (req,res) => {
     }
 });
 
-router.post('/',(req,res) =>{ 
+router.post('/',checkAuthorize,(req,res) =>{ 
     try {
      saleController.saveSale(req,res); 
     } catch(err) {
