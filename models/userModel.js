@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const roles = require('./rolesModel') ;
+console.log(roles)
 const userSchema = new mongoose.Schema({
     nameUser: {
         type: String,
@@ -15,6 +17,10 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    role: {
+        type: String,
+        enum: Object.values(roles)
     },
     isCustomer: Boolean,
     date: {type: Date, default: Date.now()}

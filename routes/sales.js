@@ -2,15 +2,12 @@ const express = require('express');
 const router = express.Router();
 const saleController = require('../controllers/SaleController');
 const { check, validationResult } = require('express-validator');
-const { checkAuthorize } = require('../JWT/jwt');
-
-router.get('/',async (req,res) => { 
-    try {
-        await saleController.getAllSales(req,res)
-    } catch(err) {
+const { checkAuthorize, autorizeByRoles } = require('../JWT/jwt');
+const roles = require('../models/rolesModel');
+router.get('/',[checkAuthorize,autorizeByRoles([roles.Admin])],async (req,res) => { 
+    await saleController.getAllSales(req,res).catch(err => {
         res.status(409,err);
-    }
-    
+    });
 });
 
 router.get('/:id',async (req,res) => { 
