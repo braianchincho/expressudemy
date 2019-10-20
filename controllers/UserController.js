@@ -1,4 +1,5 @@
 const userModel = require('../models/UserModel');
+const bcrypt = require('bcrypt');
 class UserController {
 
     async getAllUsers(req,res) {
@@ -28,6 +29,10 @@ class UserController {
         if(user) {
             return res.status('400').send('Ese usuario ya existe');
         }
+        // hash de password
+        const salt = await bcrypt.genSalt(10);
+        const hashPass = await bcrypt.hash(password,salt);
+        userBody.password = hashPass;
         user = new userModel(userBody);
         const result = await user.save();
         if(result) {

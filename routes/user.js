@@ -28,13 +28,13 @@ router.post('/',(req,res) =>{
     }
 });
 
-router.put('/:id',(req,res) => { 
-    try {
-    userController.updateUser(req,res);
-    } catch(err) {
-        res.status(409,err);
-    }
-});
+// router.put('/:id',(req,res) => { 
+//     try {
+//     userController.updateUser(req,res);
+//     } catch(err) {
+//         res.status(409,err);
+//     }
+// });
 
 router.delete('/:id',(req,res) => { 
     try {
